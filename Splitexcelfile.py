@@ -1,5 +1,7 @@
 import pandas as pd
 import os
+import tkinter as tk
+from tkinter import filedialog, messagebox
 
 def split_excel_to_csv(excel_file, output_dir="csv_output"):
     # Create output directory if it doesn't exist
@@ -14,13 +16,22 @@ def split_excel_to_csv(excel_file, output_dir="csv_output"):
         csv_filename = os.path.join(output_dir, f"{sheet_name}.csv")
         df.to_csv(csv_filename, index=False, encoding='utf-8-sig')  # Use utf-8-sig for proper encoding
         print(f"Saved: {csv_filename}")
+    
+    messagebox.showinfo("Success", "Excel file has been successfully split into CSV files.")
+
+def select_file():
+    root = tk.Tk()
+    root.withdraw()  # Hide the main window
+    
+    excel_file = filedialog.askopenfilename(title="Select Excel File", filetypes=[("Excel Files", "*.xlsx;*.xls")])
+    if not excel_file:
+        return
+    
+    output_dir = filedialog.askdirectory(title="Select Output Folder")
+    if not output_dir:
+        return
+    
+    split_excel_to_csv(excel_file, output_dir)
 
 if __name__ == "__main__":
-    import argparse
-    
-    parser = argparse.ArgumentParser(description="Split an Excel file into multiple CSV files.")
-    parser.add_argument("excel_file", help="Path to the Excel file")
-    parser.add_argument("--output_dir", default="csv_output", help="Directory to save CSV files")
-    
-    args = parser.parse_args()
-    split_excel_to_csv(args.excel_file, args.output_dir)
+    select_file()
