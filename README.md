@@ -46,5 +46,5 @@ git push origin main
 This project is licensed under the MIT License.
 
 ---
-Developed by [Your Name]
+Developed by suriya
 
